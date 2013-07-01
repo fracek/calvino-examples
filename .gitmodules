@@ -1,0 +1,3 @@
+[submodule "ext/calvino"]
+	path = ext/calvino
+	url = https://github.com/dylan-foundry/calvino.git
