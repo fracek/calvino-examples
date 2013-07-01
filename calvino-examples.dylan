@@ -10,30 +10,34 @@ define function main (name :: <string>, arguments :: <vector>)
   glfwWindowHint($GLFW-VISIBLE, 1);
   glfwWindowHint($GLFW-DECORATED, 1);
 
-  //let window = glfwCreateWindow(640, 480, "Test!", null-pointer(<GLFWMonitor*>), null-pointer(<GLFWWindow*>));
+  let window = glfwCreateWindow(640, 480, "Test!", null-pointer(<GLFWMonitor*>), null-pointer(<GLFWWindow*>));
+/*
   let window = glfwCreateWindow(1024, 768,
                                 "Calvino, Italo",
                                 glfwGetPrimaryMonitor(),
                                 null-pointer(<GLFWWindow*>));
+                                */
 
   glfwMakeContextCurrent(window);
 
   /* Loop until the user closes the window */
-  let ratio :: <float> = 0.0;
-  let width :: <float> = 0.0;
-  let height :: <float> = 0.0;
-  while (~glfwWindowShouldClose(window))
+  //while (~glfwWindowShouldClose(window))
+  glClearColor(0.1, 0.08, 0.09, 1.0);
+  while(#t)
     /* Render here */
 
-    glfwGetFramebufferSize(window, width, height);
-    ratio := width / height;
+    let (width, height) = glfwGetFramebufferSize(window);
 
     glViewport(0, 0, width, height);
     glClear($GL-COLOR-BUFFER-BIT);
 
+    let ratio = as(<double-float>, as(<float>, width) / as(<float>, height));
+    format-out("R: %s\n", ratio);
+    force-output(*standard-output*);
+    let one = as(<double-float>, 1.0);
     glMatrixMode($GL-PROJECTION);
     glLoadIdentity();
-    glOrtho(-ratio, ratio, -1.0, 1.0, 1.0, -1.0);
+    glOrtho(-ratio, ratio, -one, one, one, -one);
     glMatrixMode($GL-MODELVIEW);
     glBegin($GL-TRIANGLES);
       glColor3f(1.0, 0.0, 0.0);
